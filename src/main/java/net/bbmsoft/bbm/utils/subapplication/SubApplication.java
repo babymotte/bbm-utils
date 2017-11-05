@@ -7,10 +7,27 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public abstract class SubApplication {
+	
+	public interface ShutdownHook {
+		public void onClose() throws Exception;
+	}
+
+	private volatile ShutdownHook shutdownHook;
+
+	public SubApplication() {
+		this.setShutdownHook(null);
+	}
+
+	public SubApplication(ShutdownHook shutdownHook) {
+		this.setShutdownHook(shutdownHook);
+	}
 
 	public abstract void start(Stage primaryStage) throws Exception;
 
-	public void stop() {
+	public void stop() throws Exception {
+		if(shutdownHook != null) {
+			shutdownHook.onClose();
+		}
 	}
 
 	public final void registerWindow(Window window) {
@@ -32,19 +49,27 @@ public abstract class SubApplication {
 	public static void launch(Class<? extends SubApplication> clazz) {
 		GlobalApplicationHost.launchSubApplication(clazz, null);
 	}
-	
+
+	public static void launch(Class<? extends SubApplication> clazz, boolean block) {
+		GlobalApplicationHost.launchSubApplication(clazz, null, block);
+	}
+
+	public static <T extends SubApplication> void launch(Class<T> clazz, Consumer<T> instanceConsumer, boolean block) {
+		GlobalApplicationHost.launchSubApplication(clazz, instanceConsumer, block);
+	}
+
 	public static <T extends SubApplication> void launch(UnsafeInstanceSupplier<T> instanceSupplier) {
 		GlobalApplicationHost.launchSubApplication(instanceSupplier, null);
 	}
-	
+
 	public static <T extends SubApplication> void launch(UnsafeInstanceSupplier<T> instanceSupplier, boolean block) {
 		GlobalApplicationHost.launchSubApplication(instanceSupplier, null, block);
 	}
-	
+
 	public static <T extends SubApplication> void launch(Class<T> clazz, Consumer<T> instanceConsumer) {
 		GlobalApplicationHost.launchSubApplication(clazz, instanceConsumer);
 	}
-	
+
 	public static void launch() {
 		Consumer<SubApplication> consumer = null;
 		launch(consumer);
@@ -64,10 +89,19 @@ public abstract class SubApplication {
 			return;
 		}
 
-		if(SubApplication.class.isAssignableFrom(clazz)) {
-			GlobalApplicationHost.launchSubApplication((Class<T>)clazz, instanceConsumer);
+		if (SubApplication.class.isAssignableFrom(clazz)) {
+			GlobalApplicationHost.launchSubApplication((Class<T>) clazz, instanceConsumer);
 		} else {
-			throw new IllegalStateException(String.format("%s does not extend %s!", clazz.getName(), SubApplication.class.getName()));
+			throw new IllegalStateException(
+					String.format("%s does not extend %s!", clazz.getName(), SubApplication.class.getName()));
 		}
+	}
+
+	public ShutdownHook getShutdownHook() {
+		return shutdownHook;
+	}
+
+	public void setShutdownHook(ShutdownHook shutdownHook) {
+		this.shutdownHook = shutdownHook;
 	}
 }

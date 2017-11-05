@@ -72,6 +72,12 @@ public class GlobalApplicationHost extends Application {
 
 		launchSubApplication(() -> subapplicationClass.newInstance(), instanceConsumer);
 	}
+	
+	public static <T extends SubApplication> void launchSubApplication(Class<T> subapplicationClass,
+			Consumer<T> instanceConsumer, boolean block) {
+
+		launchSubApplication(() -> subapplicationClass.newInstance(), instanceConsumer, block);
+	}
 
 	public static <T extends SubApplication> void launchSubApplication(UnsafeInstanceSupplier<T> instanceSupplier,
 			Consumer<T> instanceConsumer) {
@@ -316,6 +322,8 @@ public class GlobalApplicationHost extends Application {
 
 		try {
 			subapplication.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			CountDownLatch latch = this.countDownLatches.remove(subapplication);
 			if (latch != null) {
