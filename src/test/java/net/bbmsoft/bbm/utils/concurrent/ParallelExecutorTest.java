@@ -1,4 +1,4 @@
-package net.bbmsoft.bbm.utils;
+package net.bbmsoft.bbm.utils.concurrent;
 
 import java.util.Arrays;
 import java.util.Collection;

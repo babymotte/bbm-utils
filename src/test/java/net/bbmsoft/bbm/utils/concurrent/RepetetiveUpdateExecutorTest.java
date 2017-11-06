@@ -1,9 +1,11 @@
-package net.bbmsoft.bbm.utils;
+package net.bbmsoft.bbm.utils.concurrent;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import org.junit.Test;
+
+import net.bbmsoft.bbm.utils.concurrent.RepetitiveUpdateExecutor;
 
 public class RepetetiveUpdateExecutorTest {
 
