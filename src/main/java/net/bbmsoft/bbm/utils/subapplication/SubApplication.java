@@ -79,7 +79,7 @@ public abstract class SubApplication {
 	public static <T extends SubApplication> void launch(Consumer<T> instanceConsumer) {
 
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-		String callingClassName = trace[2].getClassName();
+		String callingClassName = trace[3].getClassName();
 		Class<?> clazz;
 		try {
 			clazz = Thread.currentThread().getContextClassLoader().loadClass(callingClassName);
