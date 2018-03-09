@@ -39,7 +39,7 @@ public class ConcatenatedList<T> implements List<T> {
 	public Object[] toArray() {
 		Object[] out = new Object[this.size()];
 		int i = 0;
-		for(T t : this) {
+		for (T t : this) {
 			out[i++] = t;
 		}
 		return out;
@@ -48,18 +48,16 @@ public class ConcatenatedList<T> implements List<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <V> V[] toArray(V[] a) {
-		
+
 		int size = this.size();
-		
-		V[] r = a.length >= size ? a :
-            (V[])java.lang.reflect.Array
-            .newInstance(a.getClass().getComponentType(), size);
-		
+
+		V[] r = a.length >= size ? a : (V[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+
 		int i = 0;
-		for(T t : this) {
-			r[i++] = (V)t;
+		for (T t : this) {
+			r[i++] = (V) t;
 		}
-		
+
 		return r;
 	}
 
@@ -75,13 +73,13 @@ public class ConcatenatedList<T> implements List<T> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		
-		for(T t : this) {
-			if(t.equals(c)) {
+
+		for (T t : this) {
+			if (t.equals(c)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -112,8 +110,8 @@ public class ConcatenatedList<T> implements List<T> {
 
 	@Override
 	public T get(int index) {
-		
-		if(index < this.a.size()) {
+
+		if (index < this.a.size()) {
 			return this.a.get(index);
 		} else {
 			return this.b.get(index);
@@ -137,9 +135,9 @@ public class ConcatenatedList<T> implements List<T> {
 
 	@Override
 	public int indexOf(Object o) {
-		
+
 		int index;
-		if((index = a.indexOf(o)) >= 0) {
+		if ((index = a.indexOf(o)) >= 0) {
 			return index;
 		} else {
 			return b.indexOf(o);
@@ -148,9 +146,9 @@ public class ConcatenatedList<T> implements List<T> {
 
 	@Override
 	public int lastIndexOf(Object o) {
-		
+
 		int index;
-		if((index = b.lastIndexOf(o)) >= 0) {
+		if ((index = b.lastIndexOf(o)) >= 0) {
 			return index;
 		} else {
 			return a.lastIndexOf(o);
@@ -164,30 +162,32 @@ public class ConcatenatedList<T> implements List<T> {
 
 	@Override
 	public ListIterator<T> listIterator(int index) {
-		
-		if(index < this.a.size()) {
+
+		if (index < this.a.size()) {
 			return new ConcatenatedListIterator(this.a.listIterator(index), this.b.listIterator());
 		} else {
-			return new ConcatenatedListIterator(this.a.listIterator(this.a.size()), this.b.listIterator(index - this.a.size()));
+			return new ConcatenatedListIterator(this.a.listIterator(this.a.size()),
+					this.b.listIterator(index - this.a.size()));
 		}
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> subList(int fromIndex, int toIndex) {
-		
-		if(fromIndex < this.a.size() && toIndex <= this.a.size()) {
+
+		if (fromIndex < this.a.size() && toIndex <= this.a.size()) {
 			return (List<T>) this.a.subList(fromIndex, toIndex);
 		}
-		
-		if(fromIndex < this.a.size() && toIndex > this.a.size()) {
-			return new ConcatenatedList<>(this.a.subList(fromIndex, this.a.size()), this.b.subList(0, toIndex - this.a.size()));
+
+		if (fromIndex < this.a.size() && toIndex > this.a.size()) {
+			return new ConcatenatedList<>(this.a.subList(fromIndex, this.a.size()),
+					this.b.subList(0, toIndex - this.a.size()));
 		}
-		
-		if(fromIndex >= this.a.size() && toIndex > this.a.size()) {
+
+		if (fromIndex >= this.a.size() && toIndex > this.a.size()) {
 			return (List<T>) this.b.subList(fromIndex - this.a.size(), toIndex - this.a.size());
 		}
-		
+
 		throw new IndexOutOfBoundsException();
 	}
 
@@ -212,14 +212,14 @@ public class ConcatenatedList<T> implements List<T> {
 		}
 
 	}
-	
+
 	class ConcatenatedListIterator extends ConcatenatedIterator implements ListIterator<T> {
 
 		private ListIterator<? extends T> a;
 		private ListIterator<? extends T> b;
 
 		public ConcatenatedListIterator(ListIterator<? extends T> a, ListIterator<? extends T> b) {
-			super(a,b);
+			super(a, b);
 			this.a = a;
 			this.b = b;
 		}
@@ -258,7 +258,6 @@ public class ConcatenatedList<T> implements List<T> {
 		public void add(T e) {
 			throw new UnsupportedOperationException("Concatenated lists are read-only!");
 		}
-
 
 	}
 }

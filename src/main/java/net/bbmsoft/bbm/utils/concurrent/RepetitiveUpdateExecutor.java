@@ -52,13 +52,12 @@ public class RepetitiveUpdateExecutor implements Executor {
 
 	/**
 	 * Creates a new RepetitiveUpdateExecutor that delegates tasks to the given
-	 * {@link Executor}. Notice that the same delegate Executor can be used for
-	 * any number of RepetitiveUpdateExecutors and also to execute any other
-	 * task independently of the created RepetitiveUpdateExecutor object.
+	 * {@link Executor}. Notice that the same delegate Executor can be used for any
+	 * number of RepetitiveUpdateExecutors and also to execute any other task
+	 * independently of the created RepetitiveUpdateExecutor object.
 	 *
 	 * @param worker
-	 *            tasks to be executed will eventually be delegated to this
-	 *            executor
+	 *            tasks to be executed will eventually be delegated to this executor
 	 */
 	public RepetitiveUpdateExecutor(Executor worker) {
 		this.task = new AtomicReference<>();
@@ -66,10 +65,10 @@ public class RepetitiveUpdateExecutor implements Executor {
 	}
 
 	/**
-	 * Register a command for execution. This will cancel ANY commands still
-	 * pending to be executed by this RepetitiveUpdateExecutor. Likewise, this
-	 * command will be cancelled if any other command is registered for
-	 * execution before execution of this command has started.
+	 * Register a command for execution. This will cancel ANY commands still pending
+	 * to be executed by this RepetitiveUpdateExecutor. Likewise, this command will
+	 * be cancelled if any other command is registered for execution before
+	 * execution of this command has started.
 	 * <p>
 	 * Otherwise this command will be executed as soon as this
 	 * RepetitiveUpdateExecutor's worker thread is free.
@@ -86,24 +85,24 @@ public class RepetitiveUpdateExecutor implements Executor {
 	}
 
 	/**
-	 * This is an alternative to the normal {@link #execute(Runnable)} function
-	 * that can be used if {@code command} itself is an asynchronous call that
-	 * returns immediately, however the function it asynchronously calls takes a
-	 * certain time to complete. The delay simulates a longer duration for the
-	 * call to complete so that the actual command has enough time, before it
-	 * can be called again.
+	 * This is an alternative to the normal {@link #execute(Runnable)} function that
+	 * can be used if {@code command} itself is an asynchronous call that returns
+	 * immediately, however the function it asynchronously calls takes a certain
+	 * time to complete. The delay simulates a longer duration for the call to
+	 * complete so that the actual command has enough time, before it can be called
+	 * again.
 	 * <p>
-	 * Notice that this functions blocks this executor's worker thread for at
-	 * least the duration of the delay, so it is not recommended to use this
-	 * function, if the worker thread is also used for tasks not related to this
-	 * executor (e.g. if the executor uses the JavaFX Application Thread as
-	 * worker thread in a UI application).
+	 * Notice that this functions blocks this executor's worker thread for at least
+	 * the duration of the delay, so it is not recommended to use this function, if
+	 * the worker thread is also used for tasks not related to this executor (e.g.
+	 * if the executor uses the JavaFX Application Thread as worker thread in a UI
+	 * application).
 	 *
 	 * @param command
 	 *            the Runnable to be registered for execution
 	 * @param delay
-	 *            the number of milliseconds the next command will be delayed,
-	 *            after this one has completed
+	 *            the number of milliseconds the next command will be delayed, after
+	 *            this one has completed
 	 *
 	 * @throws NullPointerException
 	 *             if the given command is {@code null}, a

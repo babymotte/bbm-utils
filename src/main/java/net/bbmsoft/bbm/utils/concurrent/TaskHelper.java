@@ -8,8 +8,7 @@ import javafx.concurrent.Task;
 
 public interface TaskHelper {
 
-	public <T> void submitTask(Task<T> task, Consumer<T> resultConsumer,
-			Consumer<Exception> exceptionhandler);
+	public <T> void submitTask(Task<T> task, Consumer<T> resultConsumer, Consumer<Exception> exceptionhandler);
 
 	public default <T> void submitTask(Task<T> task, Consumer<T> resultConsumer) {
 		submitTask(task, resultConsumer, null);
@@ -19,7 +18,7 @@ public interface TaskHelper {
 			Consumer<Exception> exceptionhandler) {
 
 		Task<T> task = new Task<T>() {
-			
+
 			{
 				updateTitle(label);
 			}
@@ -41,13 +40,14 @@ public interface TaskHelper {
 		return createAndSubmitTask(() -> {
 			runnable.run();
 			return null;
-		}, label, Object -> {}, exceptionhandler);
+		}, label, Object -> {
+		}, exceptionhandler);
 	}
-	
+
 	public default Task<?> createAndSubmitTask(Runnable runnable, String label) {
 		return createAndSubmitTask(runnable, label, null);
 	}
-	
+
 	public ObservableList<Task<?>> getTaskList();
 
 	public void setTaskList(ObservableList<Task<?>> taskList);

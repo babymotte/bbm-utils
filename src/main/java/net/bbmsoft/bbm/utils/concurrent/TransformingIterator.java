@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class TransformingIterator<T, V> implements Iterator<V>{
+public class TransformingIterator<T, V> implements Iterator<V> {
 
 	private final Iterator<T> wrappedIterator;
 	private final Function<T, V> transformation;
