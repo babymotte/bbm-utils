@@ -5,4 +5,5 @@ Export-Package: \
 	net.bbmsoft.bbm.utils.io,\
 	net.bbmsoft.bbm.utils.concurrent,\
 	net.bbmsoft.bbm.utils.collections,\
-	net.bbmsoft.bbm.utils.concurrent
+	net.bbmsoft.bbm.utils.concurrent,\
+	net.bbmsoft.bbm.utils
