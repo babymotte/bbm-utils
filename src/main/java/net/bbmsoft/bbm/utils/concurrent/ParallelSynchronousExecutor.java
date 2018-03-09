@@ -14,7 +14,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-
 /**
  * Helper class to parallelize the execution of several tasks. This does a
  * similar thing to {@link Stream#forEach(Consumer)} on a parallel Stream but
@@ -30,7 +29,7 @@ import java.util.stream.Stream;
 public class ParallelSynchronousExecutor extends ParallelExecutorBase implements ObservableParallelExecutor {
 
 	private final Executor threadPool;
-	
+
 	private volatile ProgressMonitor progressmonitor;
 
 	private ParallelSynchronousExecutor(Executor backEnd) {
@@ -142,9 +141,8 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 	}
 
 	/**
-	 * Executes all given {@link Runnable Runnables} in parallel. The method
-	 * will return as soon as all runnables have either completed or thrown an
-	 * exception.
+	 * Executes all given {@link Runnable Runnables} in parallel. The method will
+	 * return as soon as all runnables have either completed or thrown an exception.
 	 *
 	 * @param actions
 	 *            all the {@link Runnable Runnables} to be executed
@@ -156,8 +154,8 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 		ProgressMonitor monitor = this.progressmonitor;
 		int total = actions.size();
 		AtomicInteger counter = monitor != null ? new AtomicInteger() : null;
-		
-		if(monitor != null) {
+
+		if (monitor != null) {
 			monitor.updateProgress(0, total);
 		}
 
@@ -166,7 +164,7 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 				try {
 					a.run();
 				} finally {
-					if(monitor != null) {
+					if (monitor != null) {
 						monitor.updateProgress(counter.incrementAndGet(), total);
 					}
 					cdl.countDown();
@@ -182,9 +180,8 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 	}
 
 	/**
-	 * Executes all given {@link Runnable Runnables} in parallel. The method
-	 * will return as soon as all runnables have either completed or thrown an
-	 * exception.
+	 * Executes all given {@link Runnable Runnables} in parallel. The method will
+	 * return as soon as all runnables have either completed or thrown an exception.
 	 *
 	 * @param actions
 	 *            all the {@link Runnable Runnables} to be executed
@@ -203,8 +200,8 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 
 	/**
 	 * Perform the specified {@link Consumer} on every element of the specified
-	 * {@link Iterable} in parallel. The method will return as soon as all
-	 * consumer operations have successfully completed or thrown an exception.
+	 * {@link Iterable} in parallel. The method will return as soon as all consumer
+	 * operations have successfully completed or thrown an exception.
 	 */
 	// optimization: avoid unnecessarily copying into a new collection
 	@Override
@@ -237,8 +234,8 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 
 	/**
 	 * Perform the specified {@link Consumer} on every element of the specified
-	 * {@link Iterable} in parallel. The method will return as soon as all
-	 * consumer operations have successfully completed or thrown an exception.
+	 * {@link Iterable} in parallel. The method will return as soon as all consumer
+	 * operations have successfully completed or thrown an exception.
 	 */
 	// optimization: avoid unnecessarily copying into a new collection
 	@Override
@@ -252,9 +249,9 @@ public class ParallelSynchronousExecutor extends ParallelExecutorBase implements
 		int size = ((Collection<T>) items).size();
 
 		CountDownLatch cdl = new CountDownLatch(size);
-		
+
 		int counter = 0;
-		for(T item : items) {
+		for (T item : items) {
 			final int i = counter++;
 			this.threadPool.execute(() -> {
 				try {

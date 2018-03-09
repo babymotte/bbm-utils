@@ -17,7 +17,7 @@ public class ConsumingFuture<T> implements Future<T>, Consumer<T> {
 	private boolean done;
 
 	private T ref;
-	
+
 	private final long start = System.currentTimeMillis();
 
 	public ConsumingFuture() {

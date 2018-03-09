@@ -38,7 +38,7 @@ public class SimpleTaskHelper implements TaskHelper {
 			this.activeTasks.remove(task);
 			try {
 				T result = task.get();
-				if(resultConsumer != null) {
+				if (resultConsumer != null) {
 					resultConsumer.accept(result);
 				}
 			} catch (InterruptedException | ExecutionException e1) {

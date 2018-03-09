@@ -25,7 +25,7 @@ public class CountingIterator<T> implements Iterator<T> {
 		this.counter++;
 		return this.wrappedIterator.next();
 	}
-	
+
 	public int getIndex() {
 		return this.counter;
 	}
